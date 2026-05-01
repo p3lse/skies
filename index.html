@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skies | Portfolio</title>
+    
+    <!-- IMPORTING PREMIUM GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500;1,700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           CSS RESET & CORE VARIABLES
+           ========================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        html {
+            scroll-padding-top: 100px; 
+            background-color: #030303;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        :root {
+            --bg-color: #030303;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --marquee-gap: 2.5rem; 
+            --discord-color: #5865F2;
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden; 
+            width: 100vw;
+        }
+
+        a, button { cursor: pointer; }
+
+        /* Premium Cursive Font Class */
+        .editorial-cursive {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        /* =========================================
+           CINEMATIC FILM GRAIN
+           ========================================= */
+        .noise-overlay {
+            position: fixed;
+            top: -50%; left: -50%; right: -50%; bottom: -50%;
+            width: 200%; height: 200vh;
+            background: transparent url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+            opacity: 0.035; 
+            pointer-events: none;
+            z-index: 9999;
+            animation: grainShift 0.2s steps(2) infinite;
+        }
+
+        @keyframes grainShift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-2%, -2%); }
+        }
+
+        /* =========================================
+           HIGH-END TEXT REVEAL MASKS & LINES
+           ========================================= */
+        .text-mask {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: bottom;
+            padding-bottom: 0.15em; 
+            margin-bottom: -0.15em;
+            padding-right: 0.1em; 
+        }
+
+        .text-mask span {
+            display: inline-block;
+            transform: translateY(110%);
+            transition: transform 1.2s var(--ease-out-expo);
+            will-change: transform;
+        }
+
+        .text-mask.visible span {
+            transform: translateY(0);
+        }
+
+        .delay-1 span, .delay-1 { transition-delay: 0.1s; animation-delay: 0.1s; }
+        .delay-2 span, .delay-2 { transition-delay: 0.2s; animation-delay: 0.2s; }
+
+        .fade-in {
+            opacity: 0;
+            transition: opacity 1.5s var(--ease-out-expo);
+        }
+
+        .fade-in.visible { opacity: 1; }
+
+        .animated-line {
+            width: 0%;
+            height: 1px;
+            background-color: var(--border-color);
+            margin-top: 30px;
+            transition: width 1.5s var(--ease-out-expo);
+        }
+
+        .text-mask.visible ~ .animated-line,
+        .visible .animated-line {
+            width: 100%;
+        }
+
+        /* =========================================
+           NAVIGATION (MAGNETIC)
+           ========================================= */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 24px 5vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(3, 3, 3, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        nav .logo {
+            font-weight: 900;
+            font-size: 1.25rem;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        nav .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            display: inline-block;
+            
+            opacity: 0;
+            transform: translateY(-10px);
+            animation: navDropIn 1s var(--ease-out-expo) forwards;
+        }
+
+        nav .nav-links a:nth-child(1) { animation-delay: 0.1s; }
+        nav .nav-links a:nth-child(2) { animation-delay: 0.2s; }
+        nav .nav-links a:nth-child(3) { animation-delay: 0.3s; }
+        nav .nav-links a:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes navDropIn { to { opacity: 1; transform: translateY(0); } }
+        nav .nav-links a:hover { color: #ffffff; }
+
+        /* =========================================
+           HERO SECTION
+           ========================================= */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background-color: var(--bg-color);
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: -5%; 
+            background-image: url('Darkshell - 12.jpeg'); 
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+            animation: fluidBreathe 20s ease-in-out infinite alternate;
+            will-change: transform, background-position;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(3,3,3,0.3) 0%, rgba(3,3,3,0.8) 80%, rgba(3,3,3,1) 100%);
+            z-index: 2;
+        }
+
+        @keyframes fluidBreathe {
+            0% { transform: scale(1); filter: brightness(0.9); }
+            100% { transform: scale(1.04); filter: brightness(1.1); }
+        }
+
+        .hero-content {
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero h1 {
+            font-size: clamp(5rem, 18vw, 15rem); 
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1.1; 
+            margin-bottom: 0;
+            color: #ffffff;
+            display: block; 
+            white-space: nowrap; 
+        }
+
+        .letter-wrap {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: bottom;
+            padding-bottom: 0.1em;
+            padding-right: 0.05em; 
+            margin-right: -0.05em; 
+        }
+
+        .hero h1 span {
+            display: inline-block;
+            transform: translateY(110%);
+            animation: staggerSlide 1.2s var(--ease-out-expo) forwards;
+            will-change: transform;
+        }
+
+        .letter-wrap:nth-child(1) span { animation-delay: 0.1s; }
+        .letter-wrap:nth-child(2) span { animation-delay: 0.15s; }
+        .letter-wrap:nth-child(3) span { animation-delay: 0.2s; }
+        .letter-wrap:nth-child(4) span { animation-delay: 0.25s; }
+        .letter-wrap:nth-child(5) span { animation-delay: 0.3s; }
+
+        @keyframes staggerSlide {
+            to { transform: translateY(0); }
+        }
+
+        .typewriter-container {
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            display: flex;
+            align-items: center;
+            height: 30px; 
+            opacity: 0;
+            animation: fadeIn 1s var(--ease-out-expo) 1.2s forwards;
+            margin-top: 10px;
+        }
+
+        .cursor {
+            font-family: 'Space Mono', monospace;
+            display: inline-block;
+            width: 10px;
+            height: 1.2rem;
+            background-color: #ffffff;
+            margin-left: 8px;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes fadeIn { to { opacity: 1; } }
+
+        /* =========================================
+           CLIENT MARQUEE SECTION (ENDLESS ZOOM BUG FIX)
+           ========================================= */
+        .clients-section {
+            padding: 80px 0 160px 0;
+            background-color: transparent;
+            position: relative;
+            z-index: 4;
+            margin-top: -60px;
+            width: 100%;
+        }
+
+        .clients-section h2 {
+            text-align: center;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: #555555;
+            margin-bottom: 50px;
+            font-weight: 600;
+        }
+
+        .marquee {
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+            user-select: none;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            padding: 10px 0;
+        }
+
+        .marquee-group {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: var(--marquee-gap);
+            padding-right: var(--marquee-gap); 
+            animation: scroll 30s linear infinite; 
+        }
+
+        .client-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .client-card img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--border-color);
+            filter: grayscale(100%) opacity(0.4); 
+            transition: filter 0.4s ease, border-color 0.4s ease, transform 0.4s var(--ease-out-expo);
+        }
+
+        .client-card span {
+            color: #555555;
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: color 0.4s ease, transform 0.4s var(--ease-out-expo);
+        }
+
+        .client-card:hover img {
+            border-color: rgba(255,255,255,0.4);
+            filter: grayscale(0%) opacity(1);
+            transform: scale(1.05);
+        }
+
+        .client-card:hover span {
+            color: #ffffff;
+            transform: translateY(2px);
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* =========================================
+           PROJECTS SECTION
+           ========================================= */
+        .projects-section {
+            padding: 0 5vw 160px 5vw;
+            background-color: var(--bg-color);
+            position: relative;
+            z-index: 3;
+        }
+
+        .section-header {
+            margin-bottom: 80px;
+            width: 100%;
+        }
+
+        .section-header h2 {
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            color: #ffffff;
+            line-height: 0.9;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+
+        .project-card {
+            position: relative;
+            display: block;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 16 / 9;
+            text-decoration: none;
+            background-color: #0a0a0a;
+            border: 1px solid var(--border-color);
+            transition: transform 0.6s var(--ease-out-expo), border-color 0.4s ease;
+            transform: translateY(40px);
+            opacity: 0;
+        }
+
+        .project-card.visible { transform: translateY(0); opacity: 1; }
+
+        .project-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 1.2s var(--ease-out-expo), filter 0.6s ease;
+            filter: brightness(0.6) grayscale(20%);
+        }
+
+        .project-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 50px 40px;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0) 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .project-info h3 {
+            color: #ffffff;
+            font-size: clamp(1.5rem, 2vw, 2rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 0;
+        }
+
+        .project-info span {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            transition: color 0.3s ease, transform 0.4s var(--ease-out-expo);
+        }
+
+        .project-card:hover { border-color: rgba(255, 255, 255, 0.2); }
+        .project-card:hover .project-bg { transform: scale(1.05); filter: brightness(0.9) grayscale(0%); }
+        .project-card:hover .project-info span { color: #ffffff; transform: translateX(10px); }
+
+        /* =========================================
+           EXPERTISE SECTION
+           ========================================= */
+        .expertise-section {
+            padding: 0 5vw 160px 5vw;
+            background-color: var(--bg-color);
+        }
+
+        .expertise-header {
+            margin-bottom: 80px;
+        }
+
+        .expertise-header h2 {
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            color: #ffffff;
+            line-height: 1;
+        }
+
+        .expertise-header p {
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .expertise-card {
+            background-color: #080808;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden; 
+            transition: border-color 0.6s var(--ease-out-expo), background-color 0.6s var(--ease-out-expo);
+            
+            transform: translateY(40px);
+            opacity: 0;
+        }
+
+        .expertise-card.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .exp-bg-num {
+            position: absolute;
+            bottom: -30px;
+            right: -10px;
+            font-size: 12rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.02);
+            line-height: 1;
+            pointer-events: none;
+            transition: color 0.6s ease, transform 0.8s var(--ease-out-expo);
+        }
+
+        .expertise-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            background-color: #0c0c0c; 
+        }
+
+        .expertise-card:hover .exp-bg-num {
+            color: rgba(255, 255, 255, 0.04);
+            transform: scale(1.1);
+        }
+
+        .expertise-card h3 {
+            font-size: clamp(1.4rem, 1.8vw, 1.7rem);
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 24px;
+            letter-spacing: -0.03em;
+            line-height: 1.3;
+            position: relative;
+            z-index: 2;
+        }
+
+        .expertise-card p {
+            color: #888888;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 50px;
+            flex-grow: 1;
+            position: relative;
+            z-index: 2;
+        }
+
+        .exp-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .exp-tag {
+            padding: 8px 16px;
+            background-color: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+        }
+
+        .expertise-card:hover .exp-tag {
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+        }
+
+        /* =========================================
+           CONTACT SECTION
+           ========================================= */
+        .contact-section {
+            padding: 0 5vw 160px 5vw;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .contact-card {
+            background-color: #050505; 
+            border: 1px solid var(--border-color);
+            border-radius: 12px; 
+            padding: clamp(60px, 8vw, 100px) clamp(40px, 6vw, 80px);
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: border-color 0.4s ease;
+        }
+
+        .contact-card:hover { border-color: rgba(255,255,255,0.15); }
+
+        .contact-card h2 {
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            color: #ffffff;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .contact-card p {
+            font-size: clamp(1rem, 1.5vw, 1.25rem);
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 60px;
+            max-width: 600px;
+        }
+
+        .contact-btn-row {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .magnetic-wrap {
+            display: inline-block;
+            position: relative;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 20px 40px;
+            border-radius: 6px; 
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: transform 0.4s var(--ease-out-expo), background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        .btn svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+            transition: transform 0.4s var(--ease-out-expo);
+        }
+
+        .discord-btn {
+            background-color: var(--discord-color);
+            color: #ffffff;
+            border: 1px solid var(--discord-color);
+        }
+
+        .discord-btn:hover { background-color: #4752C4; border-color: #4752C4; }
+        .discord-btn:hover svg { transform: rotate(-10deg) scale(1.1); }
+
+        .x-btn {
+            background-color: transparent;
+            color: #ffffff;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .x-btn:hover { background-color: #ffffff; color: #000000; border-color: #ffffff; }
+        .x-btn:hover svg { transform: scale(1.1); }
+
+        /* =========================================
+           FOOTER
+           ========================================= */
+        footer {
+            background-color: #000000;
+            padding: 60px 5vw 40px 5vw;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 2px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover { color: #ffffff; }
+
+        .footer-bottom {
+            text-align: center;
+            color: #444;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* =========================================
+           RESPONSIVE DESIGN (AUTO-ADJUST)
+           ========================================= */
+        @media (max-width: 1024px) {
+            .expertise-grid { grid-template-columns: repeat(2, 1fr); }
+            nav { padding: 20px 5vw; }
+            .hero h1 { font-size: clamp(4rem, 16vw, 10rem); }
+        }
+
+        @media (max-width: 768px) {
+            nav .nav-links { display: none; }
+            .client-card img { width: 70px; height: 70px; }
+            .client-card span { font-size: 0.7rem; }
+            :root { --marquee-gap: 2rem; }
+            
+            .projects-grid, .expertise-grid { 
+                grid-template-columns: 1fr; 
+                gap: 24px;
+            }
+            
+            .project-info { padding: 30px 24px; }
+            .project-info h3 { font-size: 1.5rem; }
+            
+            .expertise-card { padding: 40px 30px; }
+            .contact-btn-row { flex-direction: column; width: 100%; }
+            .btn { width: 100%; }
+            .magnetic-wrap { width: 100%; display: block; }
+            
+            .footer-top { flex-direction: column; gap: 30px; align-items: center; text-align: center; }
+            .footer-links { flex-wrap: wrap; justify-content: center; gap: 20px; }
+            
+            .hero h1 { font-size: clamp(4.5rem, 20vw, 8rem); }
+            
+            .section-header h2 { font-size: clamp(2.5rem, 12vw, 4rem); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CINEMATIC NOISE OVERLAY -->
+    <div class="noise-overlay"></div>
+
+    <!-- NAVIGATION -->
+    <nav id="navbar">
+        <div class="magnetic-wrap"><a href="#home" class="logo nav-link btn-magnetic">SKIES</a></div>
+        <div class="nav-links">
+            <div class="magnetic-wrap"><a href="#home" class="nav-link btn-magnetic">Home</a></div>
+            <div class="magnetic-wrap"><a href="#work" class="nav-link btn-magnetic">Work</a></div>
+            <div class="magnetic-wrap"><a href="#expertise" class="nav-link btn-magnetic">Expertise</a></div>
+            <div class="magnetic-wrap"><a href="#contact" class="nav-link btn-magnetic">Contact</a></div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header id="home" class="hero">
+        <div class="hero-bg" id="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        
+        <div class="hero-content">
+            <!-- FIXED: Individual wrappers prevent letter clipping on all screens -->
+            <h1>
+                <div class="letter-wrap"><span>S</span></div>
+                <div class="letter-wrap"><span>K</span></div>
+                <div class="letter-wrap"><span>I</span></div>
+                <div class="letter-wrap"><span>E</span></div>
+                <div class="letter-wrap"><span>S</span></div>
+            </h1>
+            <div class="typewriter-container">
+                <span id="typewriter-text"></span><span class="cursor"></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- CLIENTS SECTION -->
+    <section class="clients-section fade-in">
+        <h2>Organizations <span class="editorial-cursive">&</span> Clients</h2>
+        
+        <div class="marquee">
+            <!-- GROUP 1 -->
+            <div class="marquee-group">
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2039870014187302912/mOm1lQRG_400x400.jpg" alt="PWR"><span>PWR</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1607008301786763264/dID8FBx-_400x400.jpg" alt="S8UL"><span>S8UL</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2038687493206560768/xYh35iFH_400x400.jpg" alt="FlyQuest"><span>FlyQuest</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2045802103374024704/oIG-517B_400x400.jpg" alt="Armour"><span>Armour</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1859962539377123328/nXLDYF7Q_400x400.jpg" alt="JFT"><span>JFT</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1897889473448554496/FhQLuUPM_400x400.jpg" alt="Arcade"><span>Arcade</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2007613572445286400/oJzBYbRO_400x400.jpg" alt="Validus"><span>Validus</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1845578750055833600/ml6PhsDv_400x400.jpg" alt="Loyal"><span>Loyal</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1618875981237989376/QXJeN3Ku_400x400.jpg" alt="Orangutan"><span>Orangutan</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1689688075067170823/UyA3Ejyx_400x400.jpg" alt="Leviatan"><span>Leviatan</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1845689416540737536/0eBgebVX_400x400.png" alt="Overt"><span>Overt</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1876493333226262528/Rke0XaQ4_400x400.jpg" alt="Elevate"><span>Elevate</span></div>
+            </div>
+            <!-- FIXED: MULTIPLE BACKUPS ENSURE IT NEVER RUNS OUT EVEN AT 10% ZOOM -->
+            <div class="marquee-group" aria-hidden="true">
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2039870014187302912/mOm1lQRG_400x400.jpg" alt="PWR"><span>PWR</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1607008301786763264/dID8FBx-_400x400.jpg" alt="S8UL"><span>S8UL</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2038687493206560768/xYh35iFH_400x400.jpg" alt="FlyQuest"><span>FlyQuest</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2045802103374024704/oIG-517B_400x400.jpg" alt="Armour"><span>Armour</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1859962539377123328/nXLDYF7Q_400x400.jpg" alt="JFT"><span>JFT</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1897889473448554496/FhQLuUPM_400x400.jpg" alt="Arcade"><span>Arcade</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2007613572445286400/oJzBYbRO_400x400.jpg" alt="Validus"><span>Validus</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1845578750055833600/ml6PhsDv_400x400.jpg" alt="Loyal"><span>Loyal</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1618875981237989376/QXJeN3Ku_400x400.jpg" alt="Orangutan"><span>Orangutan</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1689688075067170823/UyA3Ejyx_400x400.jpg" alt="Leviatan"><span>Leviatan</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1845689416540737536/0eBgebVX_400x400.png" alt="Overt"><span>Overt</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1876493333226262528/Rke0XaQ4_400x400.jpg" alt="Elevate"><span>Elevate</span></div>
+            </div>
+            <div class="marquee-group" aria-hidden="true">
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2039870014187302912/mOm1lQRG_400x400.jpg" alt="PWR"><span>PWR</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1607008301786763264/dID8FBx-_400x400.jpg" alt="S8UL"><span>S8UL</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2038687493206560768/xYh35iFH_400x400.jpg" alt="FlyQuest"><span>FlyQuest</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2045802103374024704/oIG-517B_400x400.jpg" alt="Armour"><span>Armour</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1859962539377123328/nXLDYF7Q_400x400.jpg" alt="JFT"><span>JFT</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1897889473448554496/FhQLuUPM_400x400.jpg" alt="Arcade"><span>Arcade</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2007613572445286400/oJzBYbRO_400x400.jpg" alt="Validus"><span>Validus</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1845578750055833600/ml6PhsDv_400x400.jpg" alt="Loyal"><span>Loyal</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1618875981237989376/QXJeN3Ku_400x400.jpg" alt="Orangutan"><span>Orangutan</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1689688075067170823/UyA3Ejyx_400x400.jpg" alt="Leviatan"><span>Leviatan</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1845689416540737536/0eBgebVX_400x400.png" alt="Overt"><span>Overt</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1876493333226262528/Rke0XaQ4_400x400.jpg" alt="Elevate"><span>Elevate</span></div>
+            </div>
+            <div class="marquee-group" aria-hidden="true">
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2039870014187302912/mOm1lQRG_400x400.jpg" alt="PWR"><span>PWR</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1607008301786763264/dID8FBx-_400x400.jpg" alt="S8UL"><span>S8UL</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2038687493206560768/xYh35iFH_400x400.jpg" alt="FlyQuest"><span>FlyQuest</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2045802103374024704/oIG-517B_400x400.jpg" alt="Armour"><span>Armour</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1859962539377123328/nXLDYF7Q_400x400.jpg" alt="JFT"><span>JFT</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1897889473448554496/FhQLuUPM_400x400.jpg" alt="Arcade"><span>Arcade</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2007613572445286400/oJzBYbRO_400x400.jpg" alt="Validus"><span>Validus</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1845578750055833600/ml6PhsDv_400x400.jpg" alt="Loyal"><span>Loyal</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1618875981237989376/QXJeN3Ku_400x400.jpg" alt="Orangutan"><span>Orangutan</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1689688075067170823/UyA3Ejyx_400x400.jpg" alt="Leviatan"><span>Leviatan</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1845689416540737536/0eBgebVX_400x400.png" alt="Overt"><span>Overt</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1876493333226262528/Rke0XaQ4_400x400.jpg" alt="Elevate"><span>Elevate</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS / WORK SECTION -->
+    <section id="work" class="projects-section">
+        <div class="section-header">
+            <div class="text-mask"><h2>Selected</h2></div>
+            <div class="text-mask delay-1"><h2><span class="editorial-cursive">Works.</span></h2></div>
+            <div class="animated-line"></div>
+        </div>
+        
+        <div class="projects-grid">
+            <a href="https://www.behance.net/gallery/169773075/Twiter-Headers" target="_blank" class="project-card scroll-reveal" style="transition-delay: 0s;">
+                <div class="project-bg" style="background-image: url('twitter.png');"></div>
+                <div class="project-info">
+                    <h3>Twitter Headers</h3>
+                    <span>View Gallery ↗</span>
+                </div>
+            </a>
+            <a href="https://www.behance.net/gallery/143570859/Esports-Miscallenous" target="_blank" class="project-card scroll-reveal" style="transition-delay: 0.1s;">
+                <div class="project-bg" style="background-image: url('esports.png');"></div>
+                <div class="project-info">
+                    <h3>Esports Misc</h3>
+                    <span>View Gallery ↗</span>
+                </div>
+            </a>
+            <a href="https://www.behance.net/gallery/171562593/CoversPosters" target="_blank" class="project-card scroll-reveal" style="transition-delay: 0s;">
+                <div class="project-bg" style="background-image: url('covers.png');"></div>
+                <div class="project-info">
+                    <h3>Covers & Posters</h3>
+                    <span>View Gallery ↗</span>
+                </div>
+            </a>
+            <a href="https://www.behance.net/gallery/151270673/Placement-Thumbnails" target="_blank" class="project-card scroll-reveal" style="transition-delay: 0.1s;">
+                <div class="project-bg" style="background-image: url('thumbnails.png');"></div>
+                <div class="project-info">
+                    <h3>Thumbnails</h3>
+                    <span>View Gallery ↗</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- EXPERTISE SECTION -->
+    <section id="expertise" class="expertise-section">
+        <div class="section-header expertise-header">
+            <div class="text-mask"><h2>Core</h2></div>
+            <div class="text-mask delay-1"><h2><span class="editorial-cursive">Expertise.</span></h2></div>
+            <p class="fade-in delay-2">Some of what I do</p>
+            <div class="animated-line"></div>
+        </div>
+
+        <div class="expertise-grid">
+            <div class="expertise-card scroll-reveal" style="transition-delay: 0s;">
+                <div class="exp-bg-num">01</div>
+                <h3>YouTube & Content Thumbnails</h3>
+                <p>High-conversion, click-driven visual assets tailored specifically for YouTube creators, streamers, and digital brands looking to maximize their click-through rates.</p>
+                <div class="exp-tags">
+                    <span class="exp-tag">Thumbnails</span>
+                    <span class="exp-tag">Stream Overlays</span>
+                </div>
+            </div>
+
+            <div class="expertise-card scroll-reveal" style="transition-delay: 0.1s;">
+                <div class="exp-bg-num">02</div>
+                <h3>Esports Media & Design</h3>
+                <p>High-impact broadcast and social media graphics designed for the competitive gaming industry. Capturing the hype of tournaments, roster reveals, and match-day graphics.</p>
+                <div class="exp-tags">
+                    <span class="exp-tag">Match Graphics</span>
+                    <span class="exp-tag">Roster Announcements</span>
+                </div>
+            </div>
+
+            <div class="expertise-card scroll-reveal" style="transition-delay: 0.2s;">
+                <div class="exp-bg-num">03</div>
+                <h3>Social Branding & Identity</h3>
+                <p>Cohesive identity systems for creators and brands across X, Instagram, Twitch, and Discord. Logos, banners, and the visual rules that keep everything consistently on-brand.</p>
+                <div class="exp-tags">
+                    <span class="exp-tag">Logo Design</span>
+                    <span class="exp-tag">Banners & Headers</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="contact-section">
+        <div class="contact-card fade-in">
+            <div class="text-mask"><h2>Let's</h2></div>
+            <div class="text-mask delay-1"><h2><span class="editorial-cursive">Collaborate.</span></h2></div>
+            
+            <p class="fade-in delay-2" style="margin-top: 20px;">Currently accepting new clients for esports branding, visual identity, and social media design. Connect directly below to discuss your project requirements and timeline.</p>
+            
+            <div class="contact-btn-row fade-in delay-3">
+                <div class="magnetic-wrap">
+                    <a href="https://discord.com/channels/@me/1498305590965960856" target="_blank" class="btn discord-btn btn-magnetic">
+                        <svg viewBox="0 0 127.14 96.36" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.31,60,73.31,53s5-12.74,11.43-12.74S96.2,46,96.12,53,91.08,65.69,84.69,65.69Z"/>
+                        </svg>
+                        Message on Discord
+                    </a>
+                </div>
+                <div class="magnetic-wrap">
+                    <a href="https://x.com/skiesed" target="_blank" class="btn x-btn btn-magnetic">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 22.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.005 4.066H5.028z"/>
+                        </svg>
+                        Follow on X
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-top">
+            <div class="footer-logo">SKIES</div>
+            <div class="footer-links">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#work" class="nav-link">Work</a>
+                <a href="#expertise" class="nav-link">Expertise</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Skies Creative Studio. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- HIGH-END AGENCY JAVASCRIPT -->
+    <script>
+        // 1. HARDWARE-ACCELERATED PARALLAX FOR HERO BACKGROUND
+        const heroBg = document.getElementById('hero-bg');
+        const heroSection = document.getElementById('home');
+        
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let currentX = window.innerWidth / 2;
+        let currentY = window.innerHeight / 2;
+
+        heroSection.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        function updateParallax() {
+            currentX += (mouseX - currentX) * 0.05;
+            currentY += (mouseY - currentY) * 0.05;
+
+            const moveX = ((currentX / window.innerWidth) - 0.5) * -20;
+            const moveY = ((currentY / window.innerHeight) - 0.5) * -20;
+
+            heroBg.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+            requestAnimationFrame(updateParallax);
+        }
+        updateParallax();
+
+        heroSection.addEventListener('mouseleave', () => {
+            mouseX = window.innerWidth / 2;
+            mouseY = window.innerHeight / 2;
+        });
+
+        // 2. AGENCY-LEVEL MAGNETIC UI ENGINE (Disabled on mobile)
+        if (window.innerWidth > 768) {
+            const magneticElements = document.querySelectorAll('.magnetic-wrap');
+
+            magneticElements.forEach(wrap => {
+                const btn = wrap.querySelector('.btn-magnetic');
+                
+                wrap.addEventListener('mousemove', (e) => {
+                    const rect = wrap.getBoundingClientRect();
+                    const hOffset = e.clientX - (rect.left + rect.width / 2);
+                    const vOffset = e.clientY - (rect.top + rect.height / 2);
+                    
+                    btn.style.transform = `translate(${hOffset * 0.3}px, ${vOffset * 0.3}px)`;
+                });
+
+                wrap.addEventListener('mouseleave', () => {
+                    btn.style.transform = 'translate(0px, 0px)';
+                });
+            });
+        }
+
+        // 3. EDITORIAL SCROLL REVEAL OBSERVER
+        const revealOptions = {
+            root: null,
+            rootMargin: '0px 0px -100px 0px', 
+            threshold: 0.1
+        };
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, revealOptions);
+
+        document.querySelectorAll('.text-mask, .fade-in, .scroll-reveal').forEach((el) => {
+            revealObserver.observe(el);
+        });
+
+        // 4. PREMIUM EASING SCROLL FOR NAV LINKS
+        function smoothScroll(targetElement, duration) {
+            const targetPosition = targetElement.offsetTop - 80; 
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            let startTime = null;
+
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                
+                let run = easeInOutExpo(timeElapsed, startPosition, distance, duration);
+                window.scrollTo(0, run);
+                
+                if (timeElapsed < duration) {
+                    requestAnimationFrame(animation);
+                } else {
+                    window.scrollTo(0, targetPosition);
+                }
+            }
+
+            function easeInOutExpo(t, b, c, d) {
+                if (t === 0) return b;
+                if (t === d) return b + c;
+                if ((t /= d / 2) < 1) return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
+                return c / 2 * (-Math.pow(2, -10 * --t) + 2) + b;
+            }
+
+            requestAnimationFrame(animation);
+        }
+
+        document.querySelectorAll('.nav-link').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    smoothScroll(targetSection, 1200); 
+                }
+            });
+        });
+
+        // 5. PRECISION TYPEWRITER EFFECT
+        const textToType = "Visual & Graphic Designer.";
+        const typeWriterElement = document.getElementById('typewriter-text');
+        let typeIndex = 0;
+
+        function typeWriter() {
+            if (typeIndex < textToType.length) {
+                typeWriterElement.innerHTML += textToType.charAt(typeIndex);
+                typeIndex++;
+                const speed = Math.floor(Math.random() * (90 - 40 + 1)) + 40; 
+                setTimeout(typeWriter, speed);
+            }
+        }
+
+        // Delay to sync perfectly with the staggered SKIES text drop-in
+        setTimeout(typeWriter, 1600);
+    </script>
+</body>
+</html>
