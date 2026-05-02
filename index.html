@@ -205,41 +205,38 @@
             width: 100%;
         }
 
-        .hero h1 {
-            font-size: clamp(4.5rem, 15vw, 12rem); 
-            font-weight: 900;
-            letter-spacing: -0.06em;
-            line-height: 1.05; 
-            margin-bottom: 0;
+        /* NEW CINEMATIC CURSIVE SIGNATURE */
+        .hero-signature {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 500;
+            font-size: clamp(6rem, 20vw, 14rem); 
             color: #ffffff;
-            display: block; 
-            white-space: nowrap; 
+            line-height: 1;
+            margin-bottom: 10px;
+            padding-right: 0.1em; /* Accommodates the slant of italic text */
+            
+            /* Initial Animation State */
+            opacity: 0;
+            transform: translateY(40px) scale(0.95);
+            filter: blur(12px);
+            
+            /* The execution */
+            animation: signatureReveal 2s var(--ease-out-expo) forwards;
+            will-change: transform, opacity, filter;
         }
 
-        .letter-wrap {
-            display: inline-block;
-            overflow: hidden;
-            vertical-align: bottom;
-            padding-bottom: 0.1em;
-            padding-right: 0.05em; 
-            margin-right: -0.05em; 
-        }
-
-        .hero h1 span {
-            display: inline-block;
-            transform: translateY(110%);
-            animation: staggerSlide 1.2s var(--ease-out-expo) forwards;
-            will-change: transform;
-        }
-
-        .letter-wrap:nth-child(1) span { animation-delay: 0.1s; }
-        .letter-wrap:nth-child(2) span { animation-delay: 0.15s; }
-        .letter-wrap:nth-child(3) span { animation-delay: 0.2s; }
-        .letter-wrap:nth-child(4) span { animation-delay: 0.25s; }
-        .letter-wrap:nth-child(5) span { animation-delay: 0.3s; }
-
-        @keyframes staggerSlide {
-            to { transform: translateY(0); }
+        @keyframes signatureReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+                filter: blur(12px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
         }
 
         .typewriter-container {
@@ -252,7 +249,8 @@
             align-items: center;
             height: 30px; 
             opacity: 0;
-            animation: fadeIn 1s var(--ease-out-expo) 1.2s forwards;
+            /* Delayed to let the cursive signature breathe first */
+            animation: fadeIn 1s var(--ease-out-expo) 1.5s forwards;
             margin-top: 10px;
         }
 
@@ -286,7 +284,7 @@
             text-align: center;
             font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.3em;
+            letter-spacing: 0.2em;
             color: #555555;
             margin-bottom: 50px;
             font-weight: 600;
@@ -308,8 +306,7 @@
             align-items: center;
             gap: var(--marquee-gap);
             padding-right: var(--marquee-gap); 
-            /* Extended animation time since the list is massive now */
-            animation: scroll 60s linear infinite; 
+            animation: scroll 20s linear infinite; 
             will-change: transform;
         }
 
@@ -923,13 +920,8 @@
         <div class="hero-overlay"></div>
         
         <div class="hero-content">
-            <h1>
-                <div class="letter-wrap"><span>T</span></div>
-                <div class="letter-wrap"><span>A</span></div>
-                <div class="letter-wrap"><span>N</span></div>
-                <div class="letter-wrap"><span>A</span></div>
-                <div class="letter-wrap"><span>Y</span></div>
-            </h1>
+            <!-- NEW CINEMATIC CURSIVE SIGNATURE -->
+            <h1 class="hero-signature">tanay</h1>
             <div class="typewriter-container">
                 <span id="typewriter-text"></span><span class="cursor"></span>
             </div>
@@ -941,30 +933,16 @@
         <h2>Trusted by Leading Organisations <span class="editorial-cursive">&amp;</span> Creators</h2>
         
         <div class="marquee">
-            <!-- Group 1: New + Old Combined -->
+            <!-- Group 1 -->
             <div class="marquee-group">
-                <!-- New Clients -->
                 <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1652573221852688384/uxZo-9KD_400x400.jpg" alt="Logitech"><span>Logitech</span></div>
                 <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1610115287797608449/sIp2fRac_400x400.jpg" alt="IQOO"><span>IQOO</span></div>
                 <div class="client-card"><img src="631533391_18507649450078519_6542851969729320882_n.jpg" alt="Duncan"><span>Duncan</span></div>
                 <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1607008301786763264/dID8FBx-_400x400.jpg" alt="S8UL"><span>S8UL</span></div>
                 <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1993762295005024256/cMLiJgjr_400x400.jpg" alt="Gamer Sleeve"><span>Gamer Sleeve</span></div>
                 <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1941080527336853504/WwKAhaKb_400x400.jpg" alt="Chefstrobel"><span>Chefstrobel</span></div>
-                <!-- Original Clients -->
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2039870014187302912/mOm1lQRG_400x400.jpg" alt="PWR"><span>PWR</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2038687493206560768/xYh35iFH_400x400.jpg" alt="FlyQuest"><span>FlyQuest</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2045802103374024704/oIG-517B_400x400.jpg" alt="Armour"><span>Armour</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1859962539377123328/nXLDYF7Q_400x400.jpg" alt="JFT"><span>JFT</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1897889473448554496/FhQLuUPM_400x400.jpg" alt="Arcade"><span>Arcade</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2007613572445286400/oJzBYbRO_400x400.jpg" alt="Validus"><span>Validus</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1845578750055833600/ml6PhsDv_400x400.jpg" alt="Loyal"><span>Loyal</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1618875981237989376/QXJeN3Ku_400x400.jpg" alt="Orangutan"><span>Orangutan</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1689688075067170823/UyA3Ejyx_400x400.jpg" alt="Leviatan"><span>Leviatan</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1845689416540737536/0eBgebVX_400x400.png" alt="Overt"><span>Overt</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1876493333226262528/Rke0XaQ4_400x400.jpg" alt="Elevate"><span>Elevate</span></div>
             </div>
-            
-            <!-- Group 2 (Duplicate for infinite loop) -->
+            <!-- Group 2 -->
             <div class="marquee-group" aria-hidden="true">
                 <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1652573221852688384/uxZo-9KD_400x400.jpg" alt="Logitech"><span>Logitech</span></div>
                 <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1610115287797608449/sIp2fRac_400x400.jpg" alt="IQOO"><span>IQOO</span></div>
@@ -972,20 +950,8 @@
                 <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1607008301786763264/dID8FBx-_400x400.jpg" alt="S8UL"><span>S8UL</span></div>
                 <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1993762295005024256/cMLiJgjr_400x400.jpg" alt="Gamer Sleeve"><span>Gamer Sleeve</span></div>
                 <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1941080527336853504/WwKAhaKb_400x400.jpg" alt="Chefstrobel"><span>Chefstrobel</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2039870014187302912/mOm1lQRG_400x400.jpg" alt="PWR"><span>PWR</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2038687493206560768/xYh35iFH_400x400.jpg" alt="FlyQuest"><span>FlyQuest</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2045802103374024704/oIG-517B_400x400.jpg" alt="Armour"><span>Armour</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1859962539377123328/nXLDYF7Q_400x400.jpg" alt="JFT"><span>JFT</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1897889473448554496/FhQLuUPM_400x400.jpg" alt="Arcade"><span>Arcade</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2007613572445286400/oJzBYbRO_400x400.jpg" alt="Validus"><span>Validus</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1845578750055833600/ml6PhsDv_400x400.jpg" alt="Loyal"><span>Loyal</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1618875981237989376/QXJeN3Ku_400x400.jpg" alt="Orangutan"><span>Orangutan</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1689688075067170823/UyA3Ejyx_400x400.jpg" alt="Leviatan"><span>Leviatan</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1845689416540737536/0eBgebVX_400x400.png" alt="Overt"><span>Overt</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1876493333226262528/Rke0XaQ4_400x400.jpg" alt="Elevate"><span>Elevate</span></div>
             </div>
-
-            <!-- Group 3 (Duplicate for infinite loop on ultrawide monitors) -->
+            <!-- Group 3 -->
             <div class="marquee-group" aria-hidden="true">
                 <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1652573221852688384/uxZo-9KD_400x400.jpg" alt="Logitech"><span>Logitech</span></div>
                 <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1610115287797608449/sIp2fRac_400x400.jpg" alt="IQOO"><span>IQOO</span></div>
@@ -993,17 +959,42 @@
                 <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1607008301786763264/dID8FBx-_400x400.jpg" alt="S8UL"><span>S8UL</span></div>
                 <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1993762295005024256/cMLiJgjr_400x400.jpg" alt="Gamer Sleeve"><span>Gamer Sleeve</span></div>
                 <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1941080527336853504/WwKAhaKb_400x400.jpg" alt="Chefstrobel"><span>Chefstrobel</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2039870014187302912/mOm1lQRG_400x400.jpg" alt="PWR"><span>PWR</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2038687493206560768/xYh35iFH_400x400.jpg" alt="FlyQuest"><span>FlyQuest</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2045802103374024704/oIG-517B_400x400.jpg" alt="Armour"><span>Armour</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1859962539377123328/nXLDYF7Q_400x400.jpg" alt="JFT"><span>JFT</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1897889473448554496/FhQLuUPM_400x400.jpg" alt="Arcade"><span>Arcade</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/2007613572445286400/oJzBYbRO_400x400.jpg" alt="Validus"><span>Validus</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1845578750055833600/ml6PhsDv_400x400.jpg" alt="Loyal"><span>Loyal</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1618875981237989376/QXJeN3Ku_400x400.jpg" alt="Orangutan"><span>Orangutan</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1689688075067170823/UyA3Ejyx_400x400.jpg" alt="Leviatan"><span>Leviatan</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1845689416540737536/0eBgebVX_400x400.png" alt="Overt"><span>Overt</span></div>
-                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1876493333226262528/Rke0XaQ4_400x400.jpg" alt="Elevate"><span>Elevate</span></div>
+            </div>
+            <!-- Group 4 -->
+            <div class="marquee-group" aria-hidden="true">
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1652573221852688384/uxZo-9KD_400x400.jpg" alt="Logitech"><span>Logitech</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1610115287797608449/sIp2fRac_400x400.jpg" alt="IQOO"><span>IQOO</span></div>
+                <div class="client-card"><img src="631533391_18507649450078519_6542851969729320882_n.jpg" alt="Duncan"><span>Duncan</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1607008301786763264/dID8FBx-_400x400.jpg" alt="S8UL"><span>S8UL</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1993762295005024256/cMLiJgjr_400x400.jpg" alt="Gamer Sleeve"><span>Gamer Sleeve</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1941080527336853504/WwKAhaKb_400x400.jpg" alt="Chefstrobel"><span>Chefstrobel</span></div>
+            </div>
+            <!-- Group 5 -->
+            <div class="marquee-group" aria-hidden="true">
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1652573221852688384/uxZo-9KD_400x400.jpg" alt="Logitech"><span>Logitech</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1610115287797608449/sIp2fRac_400x400.jpg" alt="IQOO"><span>IQOO</span></div>
+                <div class="client-card"><img src="631533391_18507649450078519_6542851969729320882_n.jpg" alt="Duncan"><span>Duncan</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1607008301786763264/dID8FBx-_400x400.jpg" alt="S8UL"><span>S8UL</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1993762295005024256/cMLiJgjr_400x400.jpg" alt="Gamer Sleeve"><span>Gamer Sleeve</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1941080527336853504/WwKAhaKb_400x400.jpg" alt="Chefstrobel"><span>Chefstrobel</span></div>
+            </div>
+            <!-- Group 6 -->
+            <div class="marquee-group" aria-hidden="true">
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1652573221852688384/uxZo-9KD_400x400.jpg" alt="Logitech"><span>Logitech</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1610115287797608449/sIp2fRac_400x400.jpg" alt="IQOO"><span>IQOO</span></div>
+                <div class="client-card"><img src="631533391_18507649450078519_6542851969729320882_n.jpg" alt="Duncan"><span>Duncan</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1607008301786763264/dID8FBx-_400x400.jpg" alt="S8UL"><span>S8UL</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1993762295005024256/cMLiJgjr_400x400.jpg" alt="Gamer Sleeve"><span>Gamer Sleeve</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1941080527336853504/WwKAhaKb_400x400.jpg" alt="Chefstrobel"><span>Chefstrobel</span></div>
+            </div>
+            <!-- Group 7 -->
+            <div class="marquee-group" aria-hidden="true">
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1652573221852688384/uxZo-9KD_400x400.jpg" alt="Logitech"><span>Logitech</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1610115287797608449/sIp2fRac_400x400.jpg" alt="IQOO"><span>IQOO</span></div>
+                <div class="client-card"><img src="631533391_18507649450078519_6542851969729320882_n.jpg" alt="Duncan"><span>Duncan</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1607008301786763264/dID8FBx-_400x400.jpg" alt="S8UL"><span>S8UL</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1993762295005024256/cMLiJgjr_400x400.jpg" alt="Gamer Sleeve"><span>Gamer Sleeve</span></div>
+                <div class="client-card"><img src="https://pbs.twimg.com/profile_images/1941080527336853504/WwKAhaKb_400x400.jpg" alt="Chefstrobel"><span>Chefstrobel</span></div>
             </div>
         </div>
     </section>
@@ -1165,12 +1156,9 @@
 
             <!-- Right Side: Contact Form via FormSubmit -->
             <div class="contact-form-wrapper fade-in delay-2">
-                <!-- Using FormSubmit for direct email routing -->
                 <form class="contact-form" action="https://formsubmit.co/tanaygulrajani7@gmail.com" method="POST">
                     
-                    <!-- Disables the annoying captcha page -->
                     <input type="hidden" name="_captcha" value="false">
-                    <!-- Disables the next page so they stay on your site -->
                     <input type="hidden" name="_next" value="https://tanaygulrajani7.github.io/portfolio"> 
                     <input type="hidden" name="_subject" value="New Portfolio Lead!">
 
@@ -1333,7 +1321,7 @@
         });
 
         // 4. PRECISION TYPEWRITER EFFECT
-        const textToType = "Visual & Graphic Designer.";
+        const textToType = "Visual & Graphic Designer";
         const typeWriterElement = document.getElementById('typewriter-text');
         let typeIndex = 0;
 
